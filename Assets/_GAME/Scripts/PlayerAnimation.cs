@@ -37,4 +37,28 @@ public class PlayerAnimation : MonoBehaviour
             _animator.SetBool("isRunning", false);
         }
     }
+    public void AnimAttack()
+    {
+        if (_animator != null)
+        {
+            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) return;
+            _animator.SetTrigger("isAttacking");
+        }
+    }
+    public void AnimJumpEnter()
+    {
+        if (_animator != null)
+        {
+            _animator.SetTrigger("isJumping");
+        }
+    }
+
+    public void AnimCroush()
+    {
+        if (_animator != null)
+        {
+            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Croush")) return;
+            _animator.SetTrigger("isCroushing");
+        }
+    }
 }

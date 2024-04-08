@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PlayerDataInfo
   m_EditorClassIdentifier: 
   playerHealth: 100
+  playerMana: 50
   playerMoveSpeed: 7
   playerJumpForce: 8
   playerDamage: 10

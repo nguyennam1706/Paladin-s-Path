@@ -1,225 +1,86 @@
-﻿using Assets.PixelHeroes.Scripts.CharacterScrips;
+﻿using System;
 using UnityEngine;
-using AnimationState = Assets.PixelHeroes.Scripts.CharacterScrips.AnimationState;
 
-namespace Assets.PixelHeroes.Scripts.ExampleScripts
+
+public class CharacterControls : MonoBehaviour
 {
-    public class CharacterControls : MonoBehaviour
+    public static CharacterControls instance;
+    public Character Character;
+    public ParticleSystem MoveDust;
+    private PlayerLevel PlayerLevel;
+
+    #region Jump
+    [Header("JumpSystem")]
+    [SerializeField] private float JumpSpeed = 5f;
+    [SerializeField] private ParticleSystem JumpDust;
+    [SerializeField] private float gravityMulty;
+    private Vector2 gravityVec;
+    [SerializeField] private LayerMask jumpableGround;
+    #endregion
+    private BoxCollider2D _boxCollider;
+    private Rigidbody2D _rigidbody2D;
+
+    private void Awake()
     {
-        public Character Character;
-        public CharacterController Controller; // https://docs.unity3d.com/ScriptReference/CharacterController.html
-        public float RunSpeed = 1f;
-        public float JumpSpeed = 3f;
-        public float CrawlSpeed = 0.25f;
-        public float Gravity = -0.2f;
-        public ParticleSystem MoveDust;
-        public ParticleSystem JumpDust;
-
-        private Vector3 _motion = Vector3.zero;
-        private int _inputX, _inputY;
-        private float _activityTime;
-        
-        public void Start()
+        if(instance != null)
         {
-            Character.SetState(AnimationState.Idle);
+            Debug.Log("Only 1 instance " + gameObject.name);
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
+
+    private void Start()
+    {
+        _boxCollider = GetComponent<BoxCollider2D>();
+        _rigidbody2D = GetComponent<Rigidbody2D>();
+        gravityVec = new Vector2(0, -Physics2D.gravity.y);
+        PlayerLevel = PlayerLevelSwitch.instance.CurrentLevel();
+    }
+
+    private void Update()
+    {
+        #region Jump, Fall
+        if (IsGrounded())
+        {
+            Character.AnimLanding();
+        }
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+        {
+            Jump();
         }
 
-        public void Update()
+        if(_rigidbody2D.velocity.y < 0)
         {
-            if (Input.GetKeyDown(KeyCode.A)) Character.Animator.SetTrigger("Attack");
-            else if (Input.GetKeyDown(KeyCode.J)) Character.Animator.SetTrigger("Jab");
-            else if (Input.GetKeyDown(KeyCode.P)) Character.Animator.SetTrigger("Push");
-            else if (Input.GetKeyDown(KeyCode.H)) Character.Animator.SetTrigger("Hit");
-            else if (Input.GetKeyDown(KeyCode.I)) { Character.SetState(AnimationState.Idle); _activityTime = 0; }
-            else if (Input.GetKeyDown(KeyCode.R)) { Character.SetState(AnimationState.Ready); _activityTime = Time.time; }
-            else if (Input.GetKeyDown(KeyCode.B)) Character.SetState(AnimationState.Blocking);
-            else if (Input.GetKeyUp(KeyCode.B)) Character.SetState(AnimationState.Ready);
-            else if (Input.GetKeyDown(KeyCode.D)) Character.SetState(AnimationState.Dead);
-
-            // Builder characters only.
-            else if (Input.GetKeyDown(KeyCode.S)) Character.Animator.SetTrigger("Slash");
-            else if (Input.GetKeyDown(KeyCode.O)) Character.Animator.SetTrigger("Shot");
-            else if (Input.GetKeyDown(KeyCode.F)) Character.Animator.SetTrigger("Fire1H");
-            else if (Input.GetKeyDown(KeyCode.E)) Character.Animator.SetTrigger("Fire2H");
-            else if (Input.GetKeyDown(KeyCode.C)) Character.SetState(AnimationState.Climbing);
-            else if (Input.GetKeyUp(KeyCode.C)) Character.SetState(AnimationState.Ready);
-            else if (Input.GetKeyUp(KeyCode.L)) Character.Blink();
-
-            if (Controller.isGrounded)
-            {
-                if (Input.GetKeyDown(KeyCode.DownArrow))
-                {
-                    GetDown();
-                }
-                else if (Input.GetKeyUp(KeyCode.DownArrow))
-                {
-                    GetUp();
-                }
-            }
-
-            if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                _inputX = -1;
-            }
-            else if (Input.GetKey(KeyCode.RightArrow))
-            {
-                _inputX = 1;
-            }
-            
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                _inputY = 1;
-                
-                if (Controller.isGrounded)
-                {
-                    JumpDust.Play(true);
-                }
-            }
+            _rigidbody2D.velocity -= gravityVec * gravityMulty * Time.deltaTime;
+            Character.AnimFalling();
         }
+        #endregion
 
-        public void FixedUpdate()
-        {
-            Move();
-        }
+        if (Input.GetKeyDown(KeyCode.S) && IsGrounded()) Character.AnimSlash();
+    }
 
-        private void Move()
-        {
-            if (Time.frameCount <= 1)
-            {
-                Controller.Move(new Vector3(0, Gravity) * Time.fixedDeltaTime);
-                return;
-            }
+    private void Jump()
+    {
+        Character.AnimJumping();
+        _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, JumpSpeed);
+    }
 
-            var state = Character.GetState();
+    public void FixedUpdate()
+    {
+        Move();
+    }
 
-            if (state == AnimationState.Dead)
-            {
-                if (_inputX == 0) return;
+    private void Move()
+    {
+        _rigidbody2D.velocity = new Vector2(PlayerLevel.runSpeed, _rigidbody2D.velocity.y);
+    }
 
-                Character.SetState(AnimationState.Running);
-            }
-
-            if (_inputX != 0)
-            {
-                Turn(_inputX);
-            }
-
-            if (Controller.isGrounded)
-            {
-                if (state == AnimationState.Jumping)
-                {
-                    if (Input.GetKey(KeyCode.DownArrow))
-                    {
-                        GetDown();
-                    }
-                    else
-                    {
-                        Character.Animator.SetTrigger("Landed");
-                        Character.SetState(AnimationState.Ready);
-                        JumpDust.Play(true);
-                    }
-                }
-
-                _motion = state == AnimationState.Crawling
-                    ? new Vector3(CrawlSpeed * _inputX, 0)
-                    : new Vector3(RunSpeed * _inputX, JumpSpeed * _inputY);
-
-                if (_inputX != 0 || _inputY != 0)
-                {
-                    if (_inputY > 0)
-                    {
-                        Character.SetState(AnimationState.Jumping);
-                    }
-                    else
-                    {
-                        switch (state)
-                        {
-                            case AnimationState.Idle:
-                            case AnimationState.Ready:
-                                Character.SetState(AnimationState.Running);
-                                break;
-                        }
-                    }
-                }
-                else
-                {
-                    switch (state)
-                    {
-                        case AnimationState.Crawling:
-                        case AnimationState.Climbing:
-                        case AnimationState.Blocking:
-                            break;
-                        default:
-                            var targetState = Time.time - _activityTime > 5 ? AnimationState.Idle : AnimationState.Ready;
-
-                            if (state != targetState)
-                            {
-                                Character.SetState(targetState);
-                            }
-
-                            break;
-                    }
-                }
-            }
-            else
-            {
-                _motion = new Vector3(RunSpeed * _inputX, _motion.y);
-                Character.SetState(AnimationState.Jumping);
-            }
-
-            _motion.y += Gravity;
-
-            Controller.Move(_motion * Time.fixedDeltaTime);
-
-            Character.Animator.SetBool("Grounded", Controller.isGrounded);
-            Character.Animator.SetBool("Moving", Controller.isGrounded && _inputX != 0);
-            Character.Animator.SetBool("Falling", !Controller.isGrounded && Controller.velocity.y < 0);
-
-            if (_inputX != 0 && _inputY != 0 || Character.Animator.GetBool("Action"))
-            {
-                _activityTime = Time.time;
-            }
-
-            _inputX = _inputY = 0;
-
-            if (Controller.isGrounded && !Mathf.Approximately(Controller.velocity.x, 0))
-            {
-                var velocity = MoveDust.velocityOverLifetime;
-
-                velocity.xMultiplier = 0.2f * -Mathf.Sign(Controller.velocity.x);
-
-                if (!MoveDust.isPlaying)
-                {
-                    MoveDust.Play();
-                }
-            }
-            else
-            {
-                MoveDust.Stop();
-            }
-        }
-
-        private void Turn(int direction)
-        {
-            var scale = Character.transform.localScale;
-
-            scale.x = Mathf.Sign(direction) * Mathf.Abs(scale.x);
-
-            Character.transform.localScale = scale;
-        }
-
-        private void GetDown()
-        {
-            Character.Animator.SetTrigger("GetDown");
-            Character.CharacterController.center = new Vector3(0, 0.06f);
-            Character.CharacterController.height = 0.08f;
-        }
-
-        private void GetUp()
-        {
-            Character.Animator.SetTrigger("GetUp");
-            Character.CharacterController.center = new Vector3(0, 0.08f);
-            Character.CharacterController.height = 0.16f;
-        }
+    public bool IsGrounded()
+    {
+        return Physics2D.BoxCast(_boxCollider.bounds.center, _boxCollider.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
     }
 }

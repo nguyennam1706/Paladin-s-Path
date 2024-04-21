@@ -1,53 +1,66 @@
+using Assets.PixelHeroes.Scripts.CharacterScrips;
 using System;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
-namespace Assets.PixelHeroes.Scripts.CharacterScrips
+public class Character : Creature
 {
-    /// <summary>
-    /// The main character script.
-    /// </summary>
-    public class Character : Creature
+    private Animator animator;
+    private const string Player_Jumping = "Jumping";
+    private const string Player_Dead = "Dead";
+    private const string Player_Heal = "Heal";
+    private const string Player_Hit = "Hit";
+    private const string Player_GetDown = "GetDown";
+    private const string Player_GetUp = "GetUp";
+    private const string Player_Slash = "Slash";
+    private const string Player_Falling = "Falling";
+
+    private void Start()
     {
-        public Animator Animator;
-        public CharacterController CharacterController;
-        
-        public void SetState(AnimationState state)
-        {
-            foreach (var variable in new[] { "Idle", "Ready", "Walking", "Running", "Crawling", "Jumping", "Climbing", "Blocking", "Dead" })
-            {
-                Animator.SetBool(variable, false);
-            }
-
-            switch (state)
-            {
-                case AnimationState.Idle: Animator.SetBool("Idle", true); break;
-                case AnimationState.Ready: Animator.SetBool("Ready", true); break;
-                case AnimationState.Walking: Animator.SetBool("Walking", true); break;
-                case AnimationState.Running: Animator.SetBool("Running", true); break;
-                case AnimationState.Crawling: Animator.SetBool("Crawling", true); break;
-                case AnimationState.Jumping: Animator.SetBool("Jumping", true); break;
-                case AnimationState.Climbing: Animator.SetBool("Climbing", true); break;
-                case AnimationState.Blocking: Animator.SetBool("Blocking", true); break;
-                case AnimationState.Dead: Animator.SetBool("Dead", true); break;
-                default: throw new NotSupportedException();
-            }
-
-            //Debug.Log("SetState: " + state);
-        }
-
-        public AnimationState GetState()
-        {
-            if (Animator.GetBool("Idle")) return AnimationState.Idle;
-            if (Animator.GetBool("Ready")) return AnimationState.Ready;
-            if (Animator.GetBool("Walking")) return AnimationState.Walking;
-            if (Animator.GetBool("Running")) return AnimationState.Running;
-            if (Animator.GetBool("Crawling")) return AnimationState.Crawling;
-            if (Animator.GetBool("Jumping")) return AnimationState.Jumping;
-            if (Animator.GetBool("Climbing")) return AnimationState.Climbing;
-            if (Animator.GetBool("Blocking")) return AnimationState.Blocking;
-            if (Animator.GetBool("Dead")) return AnimationState.Dead;
-
-            return AnimationState.Ready;
-        }
+        animator = this.GetComponent<Animator>();
     }
+    
+    public void AnimGetDown()
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName(Player_GetDown)) return;
+        animator.SetTrigger(Player_GetDown);
+    }
+    public void AnimHeal()
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName(Player_Heal)) return;
+        animator.SetTrigger(Player_Heal);
+    }
+    public void AnimHit()
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName(Player_Hit)) return;
+        animator.SetTrigger(Player_Hit);
+    }
+    public void AnimSlash()
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName(Player_Slash)) return;
+        animator.SetTrigger(Player_Slash);
+    }
+    public void AnimGetUp()
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName(Player_GetUp)) return;
+        animator.SetTrigger(Player_GetUp);
+    }
+    public void AnimDead()
+    {
+        animator.SetBool(Player_Dead, true);
+    }
+    public void AnimJumping()
+    {
+        animator.SetBool(Player_Jumping, true);
+    }
+    public void AnimFalling()
+    {
+        animator.SetBool(Player_Jumping, false);
+        animator.SetBool(Player_Falling, true);
+    }
+    public void AnimLanding()
+    {
+        animator.SetBool(Player_Falling, false);
+    }
+    
 }

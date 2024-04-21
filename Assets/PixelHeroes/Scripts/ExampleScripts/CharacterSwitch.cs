@@ -12,32 +12,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         public void Update()
         {
-            for (var i = 0; i < Characters.Length; i++)
-            {
-                if (Input.GetKeyDown(KeyCode.Alpha1 + i))
-                {
-                    _index = i;
-                    Character.spriteLibraryAsset = Characters[_index];
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.Minus))
-            {
-                _index--;
-
-                if (_index < 0) _index = Characters.Length - 1;
-
-                Character.GetComponentInChildren<UnityEngine.U2D.Animation.SpriteLibrary>().spriteLibraryAsset = Characters[_index];
-            }
-
-            if (Input.GetKeyDown(KeyCode.Equals))
-            {
-                _index++;
-
-                if (_index >= Characters.Length) _index = 0;
-
-                Character.GetComponentInChildren<UnityEngine.U2D.Animation.SpriteLibrary>().spriteLibraryAsset = Characters[_index];
-            }
+            _index = CenterGameData.instance.GetPlayLevel();
+            Character.spriteLibraryAsset = Characters[_index];
         }
     }
 }

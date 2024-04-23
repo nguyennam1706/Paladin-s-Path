@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f69d6c64fe9ddb8489f7a6805bbcb9b0, type: 3}
-  m_Name: Level_5
+  m_Script: {fileID: 11500000, guid: 5d24c21d25415294cbfaad3882f4393e, type: 3}
+  m_Name: Level 9
   m_EditorClassIdentifier: 
-  runSpeed: 6
-  jumpSpeed: 7
-  health: 4
-  expToLvUp: 50
-  damage: 3
+  bossHealth: 5
+  coinEarn: 12

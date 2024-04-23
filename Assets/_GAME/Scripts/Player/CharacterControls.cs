@@ -7,7 +7,7 @@ public class CharacterControls : MonoBehaviour
     public static CharacterControls instance;
     public Character Character;
     public ParticleSystem MoveDust;
-    private PlayerLevel PlayerLevel;
+    public PlayerLevel PlayerLevel;
 
     #region Jump
     [Header("JumpSystem")]
@@ -38,11 +38,12 @@ public class CharacterControls : MonoBehaviour
         _boxCollider = GetComponent<BoxCollider2D>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         gravityVec = new Vector2(0, -Physics2D.gravity.y);
-        PlayerLevel = PlayerLevelSwitch.instance.CurrentLevel();
     }
 
     private void Update()
     {
+        PlayerLevel = PlayerLevelSwitch.instance.CurrentLevel();
+
         #region Jump, Fall
         if (IsGrounded())
         {

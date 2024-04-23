@@ -21,16 +21,11 @@ public class PlayerLevelSwitch : MonoBehaviour
             DontDestroyOnLoad(this);
         }
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        currentPlayerLevel = CenterGameData.instance.GetPlayLevel();
-    }
 
     // Update is called once per frame
     void Update()
     {
-        
+        currentPlayerLevel = CenterGameData.instance.GetPlayLevel();
     }
 
     public PlayerLevel CurrentLevel()

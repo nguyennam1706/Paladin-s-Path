@@ -1,4 +1,3 @@
-using Assets.PixelHeroes.Scripts.CharacterScrips;
 using System;
 using Unity.Burst.CompilerServices;
 using UnityEngine;

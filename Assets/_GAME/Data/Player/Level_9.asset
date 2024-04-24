@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f69d6c64fe9ddb8489f7a6805bbcb9b0, type: 3}
   m_Name: Level_9
   m_EditorClassIdentifier: 
-  runSpeed: 9
+  runSpeed: 13
   jumpSpeed: 7
   health: 6
   expToLvUp: 90
-  damage: 5

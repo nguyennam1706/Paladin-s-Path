@@ -18,4 +18,20 @@ public class EnemyControls : MonoBehaviour
     {
         
     }
+
+    public bool IsAboveEnemy()
+    {
+        return transform.position.y > 1;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision != null)
+        {
+            if(collision.gameObject.CompareTag("PlayerAttack"))
+            {
+                Destroy(this.gameObject);
+            }
+        }
+    }
 }

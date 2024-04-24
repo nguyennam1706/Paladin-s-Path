@@ -12,7 +12,6 @@ public class CharacterControls : MonoBehaviour
     #region Jump
     [Header("JumpSystem")]
     [SerializeField] private float JumpSpeed = 5f;
-    [SerializeField] private ParticleSystem JumpDust;
     [SerializeField] private float gravityMulty;
     private Vector2 gravityVec;
     [SerializeField] private LayerMask jumpableGround;
@@ -38,6 +37,7 @@ public class CharacterControls : MonoBehaviour
         _boxCollider = GetComponent<BoxCollider2D>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         gravityVec = new Vector2(0, -Physics2D.gravity.y);
+        MoveDust.Play();
     }
 
     private void Update()
@@ -54,14 +54,12 @@ public class CharacterControls : MonoBehaviour
             Jump();
         }
 
-        if(_rigidbody2D.velocity.y < 0)
+        if (_rigidbody2D.velocity.y < 0)
         {
             _rigidbody2D.velocity -= gravityVec * gravityMulty * Time.deltaTime;
             Character.AnimFalling();
         }
         #endregion
-
-        if (Input.GetKeyDown(KeyCode.S) && IsGrounded()) Character.AnimSlash();
     }
 
     private void Jump()
@@ -80,8 +78,26 @@ public class CharacterControls : MonoBehaviour
         _rigidbody2D.velocity = new Vector2(PlayerLevel.runSpeed, _rigidbody2D.velocity.y);
     }
 
+    public void Slash()
+    {
+        if(IsGrounded()) {
+            Character.AnimSlash();
+        }
+    }
+
     public bool IsGrounded()
     {
         return Physics2D.BoxCast(_boxCollider.bounds.center, _boxCollider.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision != null)
+        {
+            if(collision.gameObject.CompareTag("Enemy"))
+            {
+                CenterGameData.instance.ResetLevel();
+            }
+        }
     }
 }

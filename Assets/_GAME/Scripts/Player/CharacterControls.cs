@@ -127,9 +127,9 @@ public class CharacterControls : MonoBehaviour
     IEnumerator ResetCharacter()
     {
         isMove = false;
-        yield return new WaitForSeconds(0.5f);
-        isMove = true;
         CenterGameData.instance.ResetLevel();
         CenterGameData.instance.ResetExp();
+        yield return new WaitForSeconds(0.5f);
+        isMove = true;
     }
 }

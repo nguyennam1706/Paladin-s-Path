@@ -22,10 +22,20 @@ public class PlayerLevelSwitch : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        CenterGameData.instance.SetMaxPlayLevel(playerLevels.Count);
+    }
+
     // Update is called once per frame
     void Update()
     {
         currentPlayerLevel = CenterGameData.instance.GetPlayLevel();
+        if(CenterGameData.instance.currentExp >= playerLevels[currentPlayerLevel].expToLvUp && currentPlayerLevel < CenterGameData.instance.GetMaxPlayLevel())
+        {
+            currentPlayerLevel++;
+            CenterGameData.instance.SetPlayLevel(currentPlayerLevel);
+        }
     }
 
     public PlayerLevel CurrentLevel()

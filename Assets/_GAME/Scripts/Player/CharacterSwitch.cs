@@ -10,6 +10,13 @@ public class CharacterSwitch : MonoBehaviour
     public void Update()
     {
         _index = CenterGameData.instance.GetPlayLevel();
-        Character.spriteLibraryAsset = Characters[_index];
+        if (_index < CenterGameData.instance.GetMaxPlayLevel())
+        {
+            Character.spriteLibraryAsset = Characters[_index];
+        }
+        else
+        {
+            Character.spriteLibraryAsset = Characters[CenterGameData.instance.GetMaxPlayLevel()];
+        }
     }
 }

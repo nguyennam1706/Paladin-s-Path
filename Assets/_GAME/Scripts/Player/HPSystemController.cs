@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class HPSystemController : MonoBehaviour
 {
-    [SerializeField] int currentHealth;
+    private int currentHealth;
     [SerializeField] int maxHealth;
     [SerializeField] private Image[] health;
     // Start is called before the first frame update
@@ -43,7 +43,7 @@ public class HPSystemController : MonoBehaviour
     {
         currentHealth += heathNum;
     }
-    public void RemoveHealth(int heathNum)
+    public void ReduceHealth(int heathNum)
     {
         currentHealth -= heathNum;
     }

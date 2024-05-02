@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 
@@ -16,8 +17,9 @@ public class CharacterControls : MonoBehaviour
     private Vector2 gravityVec;
     [SerializeField] private LayerMask jumpableGround;
     #endregion
-    private BoxCollider2D _boxCollider;
+    private CapsuleCollider2D _capsuleCollider2D;
     private Rigidbody2D _rigidbody2D;
+    private bool isMove;
 
     private void Awake()
     {
@@ -34,10 +36,11 @@ public class CharacterControls : MonoBehaviour
 
     private void Start()
     {
-        _boxCollider = GetComponent<BoxCollider2D>();
+        _capsuleCollider2D = GetComponent<CapsuleCollider2D>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         gravityVec = new Vector2(0, -Physics2D.gravity.y);
         MoveDust.Play();
+        isMove = true;
     }
 
     private void Update()
@@ -45,7 +48,12 @@ public class CharacterControls : MonoBehaviour
         PlayerLevel = PlayerLevelSwitch.instance.CurrentLevel();
 
         #region Jump, Fall
-        if (IsGrounded())
+        if (IsGrounded() && Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            Character.AnimGetDown();
+        }
+
+        if(IsGrounded())
         {
             Character.AnimLanding();
         }
@@ -60,6 +68,8 @@ public class CharacterControls : MonoBehaviour
             Character.AnimFalling();
         }
         #endregion
+
+
     }
 
     private void Jump()
@@ -70,24 +80,36 @@ public class CharacterControls : MonoBehaviour
 
     public void FixedUpdate()
     {
-        Move();
+        if(isMove)
+        {
+            Move();
+        }
+        else
+        {
+            StopMove();
+        }
     }
 
     private void Move()
     {
         _rigidbody2D.velocity = new Vector2(PlayerLevel.runSpeed, _rigidbody2D.velocity.y);
     }
+    
+    private void StopMove()
+    {
+        _rigidbody2D.velocity = new Vector2(-PlayerLevel.runSpeed, _rigidbody2D.velocity.y);
+    }
 
     public void Slash()
     {
-        if(IsGrounded()) {
+        if(IsGrounded() && isMove) {
             Character.AnimSlash();
         }
     }
 
     public bool IsGrounded()
     {
-        return Physics2D.BoxCast(_boxCollider.bounds.center, _boxCollider.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
+        return Physics2D.BoxCast(_capsuleCollider2D.bounds.center, _capsuleCollider2D.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -96,8 +118,18 @@ public class CharacterControls : MonoBehaviour
         {
             if(collision.gameObject.CompareTag("Enemy"))
             {
-                CenterGameData.instance.ResetLevel();
+                Character.AnimHit();
+                StartCoroutine(ResetCharacter());
             }
         }
+    }
+
+    IEnumerator ResetCharacter()
+    {
+        isMove = false;
+        yield return new WaitForSeconds(0.5f);
+        isMove = true;
+        CenterGameData.instance.ResetLevel();
+        CenterGameData.instance.ResetExp();
     }
 }

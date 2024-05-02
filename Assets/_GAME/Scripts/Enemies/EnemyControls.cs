@@ -30,6 +30,11 @@ public class EnemyControls : MonoBehaviour
         {
             if(collision.gameObject.CompareTag("PlayerAttack"))
             {
+                CenterGameData.instance.AddExp(5);
+                Destroy(this.gameObject);
+            }
+            if(collision.gameObject.CompareTag("DeathZone"))
+            {
                 Destroy(this.gameObject);
             }
         }

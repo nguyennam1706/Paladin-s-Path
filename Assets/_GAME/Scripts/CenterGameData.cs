@@ -10,6 +10,8 @@ public class CenterGameData : MonoBehaviour
 
     public int playLevel = 0;
 
+    public int currentExp;
+
     static string unlockedLevelHash = "UnlockedLevel";
     static string playLevelHash = "PlayLevel";
     static string maxPlayLevelHash = "MaxPlayLevel";
@@ -26,6 +28,16 @@ public class CenterGameData : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(this);
         }
+    }
+
+    public void AddExp(int exp)
+    {
+        currentExp += exp;
+    }
+
+    public void ResetExp()
+    {
+        currentExp = 0;
     }
 
     public int GetPlayLevel()
@@ -48,7 +60,14 @@ public class CenterGameData : MonoBehaviour
 
     public void SetPlayLevel(int levelIndex)
     {
-        PlayerPrefs.SetInt(playLevelHash, levelIndex);
+        if (levelIndex < GetMaxPlayLevel())
+        {
+            PlayerPrefs.SetInt(playLevelHash, levelIndex);
+        }
+        else
+        {
+            PlayerPrefs.SetInt(playLevelHash, GetMaxPlayLevel());
+        }
     }
 
 

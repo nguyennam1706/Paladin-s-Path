@@ -22,6 +22,7 @@ public class Character : Creature
     public void AnimGetDown()
     {
         if (animator.GetCurrentAnimatorStateInfo(0).IsName(Player_GetDown)) return;
+        if(animator.GetCurrentAnimatorStateInfo(0).IsName("Crawling")) return;
         animator.SetTrigger(Player_GetDown);
     }
     public void AnimHeal()

@@ -8,21 +8,7 @@ public class EndlessTilemap : MonoBehaviour
     public float currentDis = 0f;
     public float limitDis;
     public float respawnDis;
-    [SerializeField] protected List<GameObject> enemySpawnPos = new List<GameObject>();
-    [SerializeField] protected GameObject enemy;
-
-    private void Start()
-    {
-        SpawnEnemy();
-    }
-
-    private void SpawnEnemy()
-    {
-        for (int i = 0; i < enemySpawnPos.Count; i++)
-        {
-            Instantiate(enemy, enemySpawnPos[i].transform.position, enemySpawnPos[i].transform.rotation);
-        }
-    }
+    [SerializeField] private List<GameObject> tileMaps;
 
     protected void FixedUpdate()
     {
@@ -36,11 +22,28 @@ public class EndlessTilemap : MonoBehaviour
         Vector3 pos = transform.position;
         pos.x += this.respawnDis;
         transform.position = pos;
-        SpawnEnemy();
+        SpawnTileMap();
     }
 
     private void GetDistance()
     {
         this.currentDis = this.player.position.x - transform.position.x;
+    }
+
+    private void SpawnTileMap()
+    {
+        GameObject tileMap = tileMaps[Random.Range(0, this.tileMaps.Count)];
+        tileMap.transform.position = transform.position;
+        foreach(GameObject tile in tileMaps)
+        {
+            if (tile.name == tileMap.name) 
+            {
+                tile.SetActive(true);
+            }
+            else
+            {
+                tile.SetActive(false);
+            }
+        }
     }
 }

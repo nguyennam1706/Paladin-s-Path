@@ -9,6 +9,7 @@ TagManager:
   - PlayerSkill
   - Enemy
   - DeathZone
+  - Trap
   layers:
   - Default
   - TransparentFX

@@ -36,13 +36,10 @@ public class EndlessTilemap : MonoBehaviour
         tileMap.transform.position = transform.position;
         foreach(GameObject tile in tileMaps)
         {
+            tile.SetActive(false);
             if (tile.name == tileMap.name) 
             {
                 tile.SetActive(true);
-            }
-            else
-            {
-                tile.SetActive(false);
             }
         }
     }

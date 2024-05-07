@@ -45,6 +45,7 @@ public class CharacterControls : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(IsGrounded());
         PlayerLevel = PlayerLevelSwitch.instance.CurrentLevel();
 
         #region Jump, Fall
@@ -61,7 +62,6 @@ public class CharacterControls : MonoBehaviour
         {
             Jump();
         }
-
         if (_rigidbody2D.velocity.y < 0)
         {
             _rigidbody2D.velocity -= gravityVec * gravityMulty * Time.deltaTime;
@@ -109,14 +109,14 @@ public class CharacterControls : MonoBehaviour
 
     public bool IsGrounded()
     {
-        return Physics2D.BoxCast(_capsuleCollider2D.bounds.center, _capsuleCollider2D.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
+        return Physics2D.Raycast(_capsuleCollider2D.bounds.center, Vector2.down, _capsuleCollider2D.bounds.extents.y + .1f, jumpableGround);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision != null)
         {
-            if(collision.gameObject.CompareTag("Enemy"))
+            if(collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Trap"))
             {
                 Character.AnimHit();
                 StartCoroutine(ResetCharacter());

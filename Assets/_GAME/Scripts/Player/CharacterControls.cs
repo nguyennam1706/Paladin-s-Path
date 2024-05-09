@@ -36,6 +36,7 @@ public class CharacterControls : MonoBehaviour
 
     private void Start()
     {
+        Application.targetFrameRate = 60;
         _capsuleCollider2D = GetComponent<CapsuleCollider2D>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         gravityVec = new Vector2(0, -Physics2D.gravity.y);
@@ -45,11 +46,10 @@ public class CharacterControls : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(IsGrounded());
         PlayerLevel = PlayerLevelSwitch.instance.CurrentLevel();
 
         #region Jump, Fall
-        if (IsGrounded() && Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             Character.AnimGetDown();
         }
@@ -58,7 +58,7 @@ public class CharacterControls : MonoBehaviour
         {
             Character.AnimLanding();
         }
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
         }
@@ -72,10 +72,21 @@ public class CharacterControls : MonoBehaviour
 
     }
 
-    private void Jump()
+    public void Crawl()
     {
-        Character.AnimJumping();
-        _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, JumpSpeed);
+        if(IsGrounded())
+        {
+            Character.AnimGetDown();
+        }
+    }
+
+    public void Jump()
+    {
+        if(IsGrounded())
+        {
+            Character.AnimJumping();
+            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, JumpSpeed);
+        }
     }
 
     public void FixedUpdate()

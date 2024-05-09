@@ -15,9 +15,9 @@ public class DeadOnClick : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && enemyControls.IsAboveEnemy())
         {
-            Vector3 clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            RaycastHit2D hit = Physics2D.Raycast(clickPosition, Vector2.zero);
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
 
             if (hit.collider != null)
             {

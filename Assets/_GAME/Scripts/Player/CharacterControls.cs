@@ -36,6 +36,7 @@ public class CharacterControls : MonoBehaviour
 
     private void Start()
     {
+        Application.targetFrameRate = 60;
         _capsuleCollider2D = GetComponent<CapsuleCollider2D>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         gravityVec = new Vector2(0, -Physics2D.gravity.y);
@@ -48,7 +49,7 @@ public class CharacterControls : MonoBehaviour
         PlayerLevel = PlayerLevelSwitch.instance.CurrentLevel();
 
         #region Jump, Fall
-        if (IsGrounded() && Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             Character.AnimGetDown();
         }
@@ -57,11 +58,10 @@ public class CharacterControls : MonoBehaviour
         {
             Character.AnimLanding();
         }
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
         }
-
         if (_rigidbody2D.velocity.y < 0)
         {
             _rigidbody2D.velocity -= gravityVec * gravityMulty * Time.deltaTime;
@@ -72,10 +72,21 @@ public class CharacterControls : MonoBehaviour
 
     }
 
-    private void Jump()
+    public void Crawl()
     {
-        Character.AnimJumping();
-        _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, JumpSpeed);
+        if(IsGrounded())
+        {
+            Character.AnimGetDown();
+        }
+    }
+
+    public void Jump()
+    {
+        if(IsGrounded())
+        {
+            Character.AnimJumping();
+            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, JumpSpeed);
+        }
     }
 
     public void FixedUpdate()
@@ -109,14 +120,14 @@ public class CharacterControls : MonoBehaviour
 
     public bool IsGrounded()
     {
-        return Physics2D.BoxCast(_capsuleCollider2D.bounds.center, _capsuleCollider2D.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
+        return Physics2D.Raycast(_capsuleCollider2D.bounds.center, Vector2.down, _capsuleCollider2D.bounds.extents.y + .1f, jumpableGround);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision != null)
         {
-            if(collision.gameObject.CompareTag("Enemy"))
+            if(collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Trap"))
             {
                 Character.AnimHit();
                 StartCoroutine(ResetCharacter());

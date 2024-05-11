@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f69d6c64fe9ddb8489f7a6805bbcb9b0, type: 3}
   m_Name: Level_2
   m_EditorClassIdentifier: 
-  runSpeed: 6
+  runSpeed: 4
   jumpSpeed: 7
   health: 2
   expToLvUp: 20

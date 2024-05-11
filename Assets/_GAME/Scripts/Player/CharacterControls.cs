@@ -58,7 +58,7 @@ public class CharacterControls : MonoBehaviour
         {
             Character.AnimLanding();
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             Jump();
         }
@@ -66,6 +66,10 @@ public class CharacterControls : MonoBehaviour
         {
             _rigidbody2D.velocity -= gravityVec * gravityMulty * Time.deltaTime;
             Character.AnimFalling();
+        }
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            Slash();
         }
         #endregion
 

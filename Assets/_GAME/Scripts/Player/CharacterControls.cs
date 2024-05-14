@@ -56,7 +56,7 @@ public class CharacterControls : MonoBehaviour
         
         PlayerLevel = PlayerLevelSwitch.instance.CurrentLevel();
         #region Animation
-        if (!isDead )
+        if (!isDead)
         {
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
@@ -66,7 +66,7 @@ public class CharacterControls : MonoBehaviour
             {
                 Jump();
             }
-            if (_rigidbody2D.velocity.y < 0)
+            if (_rigidbody2D.velocity.y <= 0)
             {
                 _rigidbody2D.velocity -= gravityVec * gravityMulty * Time.deltaTime;
                 Character.AnimFalling();
@@ -108,13 +108,16 @@ public class CharacterControls : MonoBehaviour
 
     public void FixedUpdate()
     {
-        if(isMove && !isDead)
+        if(!isDead)
         {
-            Move();
-        }
-        else if(!isMove)
-        {
-            MoveBack();
+            if(isMove)
+            {
+                Move();
+            }
+            else
+            {
+                MoveBack();
+            }
         }
         else
         {
@@ -155,9 +158,12 @@ public class CharacterControls : MonoBehaviour
         {
             if(collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Trap"))
             {
-                this.gameObject.layer = detectLayerID;
-                Character.AnimHit();
-                StartCoroutine(ReviveCharacter());
+                if(!isDead)
+                {
+                    this.gameObject.layer = detectLayerID;
+                    Character.AnimHit();
+                    StartCoroutine(ReviveCharacter());
+                }
             }
         }
     }
@@ -171,6 +177,4 @@ public class CharacterControls : MonoBehaviour
         yield return new WaitForSeconds(1f);
         this.gameObject.layer = defaultLayerID;
     }
-
-
 }

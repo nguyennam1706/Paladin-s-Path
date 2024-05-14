@@ -11,13 +11,13 @@ GameObject:
   - component: {fileID: 2512064034615129323}
   - component: {fileID: 6176062142641098011}
   - component: {fileID: 3305782288959157633}
-  - component: {fileID: 7295868865332649781}
   - component: {fileID: 4884635791554908058}
   - component: {fileID: 4070953530145786663}
   - component: {fileID: 4288386273157645997}
   - component: {fileID: 8682295074108073477}
   - component: {fileID: 5857450933208079742}
-  m_Layer: 0
+  - component: {fileID: 2067027987646873872}
+  m_Layer: 7
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -75,11 +75,11 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.0001
+  m_Mass: 100
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 100
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 0712b493af081854ab5c832472aa7a06, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -89,52 +89,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 4
---- !u!61 &7295868865332649781
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1151172359871780400}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.0037782192, y: 0.521386}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.6750784, y: 0.9848873}
-  m_EdgeRadius: 0
+  m_Constraints: 5
 --- !u!114 &4884635791554908058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,6 +180,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3955d745ecd72c147a9c62a1a8f4cc93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!70 &2067027987646873872
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151172359871780400}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.008459508, y: 0.48501065}
+  m_Size: {x: 0.55075693, y: 0.99999994}
+  m_Direction: 0
 --- !u!1 &2348923787979653721
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,7 +226,7 @@ GameObject:
   - component: {fileID: 391831273479492556}
   - component: {fileID: 8304164787333392660}
   - component: {fileID: 8405472695844814218}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: 'JumpDust '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5124,7 +5114,7 @@ GameObject:
   - component: {fileID: 1300171003632625637}
   - component: {fileID: 986447955036996876}
   - component: {fileID: 482210862223638789}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MoveDust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9955,7 +9945,7 @@ GameObject:
   - component: {fileID: 3384774551742752271}
   - component: {fileID: 3389622253335054429}
   - component: {fileID: 2000003180701545954}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10070,7 +10060,7 @@ GameObject:
   - component: {fileID: 487180981731429809}
   - component: {fileID: 1033234037139269209}
   - component: {fileID: 8741985043954585482}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: JumpDust
   m_TagString: Untagged
   m_Icon: {fileID: 0}

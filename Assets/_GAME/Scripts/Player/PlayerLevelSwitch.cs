@@ -31,7 +31,7 @@ public class PlayerLevelSwitch : MonoBehaviour
     void Update()
     {
         currentPlayerLevel = CenterGameData.instance.GetPlayLevel();
-        if(CenterGameData.instance.currentExp >= playerLevels[currentPlayerLevel].expToLvUp && currentPlayerLevel < CenterGameData.instance.GetMaxPlayLevel())
+        if(CenterGameData.instance.currentExp >= playerLevels[currentPlayerLevel].expToLvUp && currentPlayerLevel < CenterGameData.instance.GetMaxPlayLevel() - 1)
         {
             currentPlayerLevel++;
             CenterGameData.instance.SetPlayLevel(currentPlayerLevel);

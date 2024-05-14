@@ -20,6 +20,11 @@ public class CharacterControls : MonoBehaviour
     private CapsuleCollider2D _capsuleCollider2D;
     private Rigidbody2D _rigidbody2D;
     private bool isMove;
+    private string defaultLayerName = "Default";
+    private int defaultLayerID;
+    private string detectLayerName = "DetectCollider";
+    private int detectLayerID;
+    public bool isDead;
 
     private void Awake()
     {
@@ -36,6 +41,8 @@ public class CharacterControls : MonoBehaviour
 
     private void Start()
     {
+        defaultLayerID = LayerMask.NameToLayer(defaultLayerName);
+        detectLayerID = LayerMask.NameToLayer(detectLayerName);
         Application.targetFrameRate = 60;
         _capsuleCollider2D = GetComponent<CapsuleCollider2D>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -46,34 +53,40 @@ public class CharacterControls : MonoBehaviour
 
     private void Update()
     {
+        
         PlayerLevel = PlayerLevelSwitch.instance.CurrentLevel();
-
-        #region Jump, Fall
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        #region Animation
+        if (!isDead )
         {
-            Character.AnimGetDown();
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                Character.AnimGetDown();
+            }
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                Jump();
+            }
+            if (_rigidbody2D.velocity.y < 0)
+            {
+                _rigidbody2D.velocity -= gravityVec * gravityMulty * Time.deltaTime;
+                Character.AnimFalling();
+                if (IsGrounded())
+                {
+                    Character.AnimLanding();
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                Slash();
+            }
         }
-
-        if(IsGrounded())
+        else
         {
-            Character.AnimLanding();
-        }
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            Jump();
-        }
-        if (_rigidbody2D.velocity.y < 0)
-        {
-            _rigidbody2D.velocity -= gravityVec * gravityMulty * Time.deltaTime;
-            Character.AnimFalling();
-        }
-        if(Input.GetKeyDown(KeyCode.A))
-        {
-            Slash();
+            Character.AnimDead();
+            CenterGameData.instance.ResetExp();
+            CenterGameData.instance.ResetLevel();
         }
         #endregion
-
-
     }
 
     public void Crawl()
@@ -95,9 +108,13 @@ public class CharacterControls : MonoBehaviour
 
     public void FixedUpdate()
     {
-        if(isMove)
+        if(isMove && !isDead)
         {
             Move();
+        }
+        else if(!isMove)
+        {
+            MoveBack();
         }
         else
         {
@@ -105,12 +122,17 @@ public class CharacterControls : MonoBehaviour
         }
     }
 
+    private void StopMove()
+    {
+        _rigidbody2D.velocity = Vector2.zero;
+    }
+
     private void Move()
     {
         _rigidbody2D.velocity = new Vector2(PlayerLevel.runSpeed, _rigidbody2D.velocity.y);
     }
     
-    private void StopMove()
+    private void MoveBack()
     {
         _rigidbody2D.velocity = new Vector2(-PlayerLevel.runSpeed, _rigidbody2D.velocity.y);
     }
@@ -133,18 +155,22 @@ public class CharacterControls : MonoBehaviour
         {
             if(collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Trap"))
             {
+                this.gameObject.layer = detectLayerID;
                 Character.AnimHit();
-                StartCoroutine(ResetCharacter());
+                StartCoroutine(ReviveCharacter());
             }
         }
     }
 
-    IEnumerator ResetCharacter()
+    IEnumerator ReviveCharacter()
     {
         isMove = false;
-        CenterGameData.instance.ResetLevel();
-        CenterGameData.instance.ResetExp();
-        yield return new WaitForSeconds(0.5f);
+        HPSystemController.instance.ReduceHealth(1);
+        yield return new WaitForSeconds(0.2f);
         isMove = true;
+        yield return new WaitForSeconds(1f);
+        this.gameObject.layer = defaultLayerID;
     }
+
+
 }

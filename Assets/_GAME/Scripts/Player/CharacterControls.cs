@@ -25,6 +25,7 @@ public class CharacterControls : MonoBehaviour
     private string detectLayerName = "DetectCollider";
     private int detectLayerID;
     public bool isDead;
+    private bool isDeadSound = true;
 
     private void Awake()
     {
@@ -83,6 +84,11 @@ public class CharacterControls : MonoBehaviour
         else
         {
             Character.AnimDead();
+            if(isDeadSound)
+            {
+                AudioManager.instance.Play("Dead");
+                isDeadSound = false;
+            }
             CenterGameData.instance.ResetExp();
             CenterGameData.instance.ResetLevel();
         }
@@ -101,6 +107,7 @@ public class CharacterControls : MonoBehaviour
     {
         if(IsGrounded())
         {
+            AudioManager.instance.Play("Jump");
             Character.AnimJumping();
             _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, JumpSpeed);
         }
@@ -143,6 +150,7 @@ public class CharacterControls : MonoBehaviour
     public void Slash()
     {
         if(IsGrounded() && isMove) {
+            AudioManager.instance.Play("Slash");
             Character.AnimSlash();
         }
     }
@@ -162,6 +170,7 @@ public class CharacterControls : MonoBehaviour
                 {
                     this.gameObject.layer = detectLayerID;
                     Character.AnimHit();
+                    AudioManager.instance.Play("Hurt");
                     StartCoroutine(ReviveCharacter());
                 }
             }

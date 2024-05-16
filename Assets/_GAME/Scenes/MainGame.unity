@@ -10530,6 +10530,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   expTxt: {fileID: 238943118}
   levelTxt: {fileID: 1482818953}
+  speedTxt: {fileID: 181929096}
+  jumpForceTxt: {fileID: 1309277879}
   characterImage: {fileID: 309378995}
   listCharacter:
   - {fileID: 2537882373423050008, guid: 625d827fc76054447b43173a27e24545, type: 3}

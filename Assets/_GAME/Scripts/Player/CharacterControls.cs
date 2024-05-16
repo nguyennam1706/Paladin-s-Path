@@ -98,6 +98,12 @@ public class CharacterControls : MonoBehaviour
         }
         yield return new WaitForSeconds(1f);
         GameUIController.instance.SetActivePopup();
+
+    }
+
+    public void SetRank(string val, string rankHash)
+    {
+        PlayerPrefs.SetString(rankHash, val);
     }
 
     public void Crawl()

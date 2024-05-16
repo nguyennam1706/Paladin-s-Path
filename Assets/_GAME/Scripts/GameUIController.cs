@@ -48,6 +48,8 @@ public class GameUIController : MonoBehaviour
 
     public void Home()
     {
+        CenterGameData.instance.ResetLevel();
+        CenterGameData.instance.ResetExp();
         SceneManager.LoadScene(0);
     }
 
@@ -58,6 +60,8 @@ public class GameUIController : MonoBehaviour
 
     public void RePlay()
     {
+        CenterGameData.instance.ResetLevel();
+        CenterGameData.instance.ResetExp();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

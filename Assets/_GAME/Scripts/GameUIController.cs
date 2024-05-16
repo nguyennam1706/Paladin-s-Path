@@ -7,16 +7,33 @@ using UnityEngine.UI;
 
 public class GameUIController : MonoBehaviour
 {
-    [SerializeField] protected TextMeshProUGUI expTxt;
-    [SerializeField] protected TextMeshProUGUI levelTxt;
-    [SerializeField] protected TextMeshProUGUI speedTxt;
-    [SerializeField] protected TextMeshProUGUI jumpForceTxt;
+    public static GameUIController instance;
+    [SerializeField] private TextMeshProUGUI expTxt;
+    [SerializeField] private TextMeshProUGUI levelTxt;
+    [SerializeField] private TextMeshProUGUI speedTxt;
+    [SerializeField] private TextMeshProUGUI jumpForceTxt;
     [SerializeField] private Image characterImage;
     [SerializeField] private Sprite[] listCharacter;
+    [SerializeField] private GameObject popupDied;
+
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Debug.Log("Only 1 instance " + gameObject.name);
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         characterImage.sprite = listCharacter[0];
+        popupDied.SetActive(false);
     }
 
     // Update is called once per frame
@@ -32,5 +49,15 @@ public class GameUIController : MonoBehaviour
     public void Home()
     {
         SceneManager.LoadScene(0);
+    }
+
+    public void SetActivePopup()
+    {
+        popupDied.SetActive(true);
+    }
+
+    public void RePlay()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

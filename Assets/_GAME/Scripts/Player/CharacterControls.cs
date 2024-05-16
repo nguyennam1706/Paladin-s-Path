@@ -83,14 +83,21 @@ public class CharacterControls : MonoBehaviour
         }
         else
         {
-            Character.AnimDead();
-            if(isDeadSound)
-            {
-                AudioManager.instance.Play("Dead");
-                isDeadSound = false;
-            }
+            StartCoroutine(Dead());
         }
         #endregion
+    }
+
+    IEnumerator Dead()
+    {
+        Character.AnimDead();
+        if (isDeadSound)
+        {
+            AudioManager.instance.Play("Dead");
+            isDeadSound = false;
+        }
+        yield return new WaitForSeconds(1f);
+        GameUIController.instance.SetActivePopup();
     }
 
     public void Crawl()

@@ -89,8 +89,6 @@ public class CharacterControls : MonoBehaviour
                 AudioManager.instance.Play("Dead");
                 isDeadSound = false;
             }
-            CenterGameData.instance.ResetExp();
-            CenterGameData.instance.ResetLevel();
         }
         #endregion
     }

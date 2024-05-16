@@ -6,7 +6,6 @@ public class EnemyControls : MonoBehaviour
 {
     private Enemy enemy;
     private EnemyData enemyData;
-    [SerializeField] private GameObject coinPrf;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +32,6 @@ public class EnemyControls : MonoBehaviour
             {
                 CenterGameData.instance.AddExp(1);
                 Destroy(this.gameObject);
-                Instantiate(coinPrf, transform.position, Quaternion.identity);
             }
             if(collision.gameObject.CompareTag("DeathZone"))
             {

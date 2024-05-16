@@ -18,7 +18,6 @@ public class PlayerLevelSwitch : MonoBehaviour
         else
         {
             instance = this;
-            DontDestroyOnLoad(this);
         }
     }
 

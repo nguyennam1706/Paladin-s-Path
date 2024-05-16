@@ -11,7 +11,7 @@ public class CoinDrop : MonoBehaviour
 
     private float startTime;
     private float journeyLength;
-    private void OnEnable()
+    private void Start()
     {
         startTime = Time.time;
         journeyLength = Vector3.Distance(startPos, endPos);

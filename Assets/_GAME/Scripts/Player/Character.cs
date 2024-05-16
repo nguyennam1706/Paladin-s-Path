@@ -49,6 +49,8 @@ public class Character : Creature
     {
         if (animator.GetCurrentAnimatorStateInfo(0).IsName(Player_Dead)) return;
         animator.SetTrigger(Player_Dead);
+        animator.SetBool(Player_Jumping, false);
+        animator.SetBool(Player_Falling, false);
     }
     public void AnimJumping()
     {

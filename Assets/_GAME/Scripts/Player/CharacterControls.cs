@@ -97,6 +97,8 @@ public class CharacterControls : MonoBehaviour
             isDeadSound = false;
         }
         yield return new WaitForSeconds(1f);
+        LBManager.instance.InsertLevel(CenterGameData.instance.GetPlayLevel());
+        LBManager.instance.InsertExp(CenterGameData.instance.currentExp);
         GameUIController.instance.SetActivePopup();
 
     }

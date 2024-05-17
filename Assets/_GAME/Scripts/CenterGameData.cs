@@ -103,4 +103,14 @@ public class CenterGameData : MonoBehaviour
     {
         SetPlayLevel(0);
     }
+
+    public int GetRank(string rankHash)
+    {
+        return PlayerPrefs.GetInt(rankHash);
+    }
+
+    public void SetRank(string rankHash, int val)
+    {
+        PlayerPrefs.SetInt(rankHash, val);
+    }
 }

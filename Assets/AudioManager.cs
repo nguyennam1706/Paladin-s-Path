@@ -34,7 +34,6 @@ public class AudioManager : MonoBehaviour
         {
             instance = this;
         }
-        DontDestroyOnLoad(this);
         if (PlayerPrefs.HasKey("Sound"))
             SoundToggle();
     }

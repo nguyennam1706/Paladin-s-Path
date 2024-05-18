@@ -16,6 +16,7 @@ public class CenterGameData : MonoBehaviour
     static string playLevelHash = "PlayLevel";
     static string maxPlayLevelHash = "MaxPlayLevel";
 
+
     private void Awake()
     {
         if (instance != null)

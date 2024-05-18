@@ -14,7 +14,10 @@ public class MainMenuUIController : MonoBehaviour
     {
         for (int i = 0; i < RankText.Length; i++)
         {
-            RankText[i].text = "Lv: " + LBManager.instance.Level[i] + " Exp: " + LBManager.instance.Level[i];
+            if(LBManager.instance.Exp[i] > 0)
+            {
+                RankText[i].text = "Exp: " + LBManager.instance.Exp[i];
+            }
         }
     }
 
@@ -26,6 +29,7 @@ public class MainMenuUIController : MonoBehaviour
 
     public void PlayGame()
     {
+        LBManager.instance.isSavedLevel = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 

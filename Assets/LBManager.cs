@@ -8,14 +8,10 @@ public class LBManager : MonoBehaviour
     {
         "Rank1Exp", "Rank2Exp", "Rank3Exp", "Rank4Exp", "Rank5Exp"
     };
-
-    static readonly string[] RankLevel = new string[5]
-    {
-        "Rank1Level", "Rank2Level", "Rank3Level", "Rank4Level", "Rank5Level"
-    };
+    
     public static LBManager instance;
-    public List<int> Level = new();
     public List<int> Exp = new();
+    public bool isSavedLevel = false;
     private void Awake()
     {
         if (instance != null)
@@ -32,16 +28,19 @@ public class LBManager : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(this.gameObject);
-        foreach (var item in RankExp)
+        for(int i = 0; i < RankExp.Length; i++)
         {
-            GetRank(item);
-        }
-        foreach (var item in RankLevel)
-        {
-            GetRank(item);
+            if(GetRank(RankExp[i]) > 0)
+            {
+                Exp.Add(GetRank(RankExp[i]));
+            }
         }
         SortList(Exp);
-        SortList(Level);
+    }
+
+    private void Update()
+    {
+        
     }
 
     public int GetRank(string rankHash)
@@ -49,13 +48,12 @@ public class LBManager : MonoBehaviour
         return PlayerPrefs.GetInt(rankHash);
     }
 
-    public void InsertLevel(int val)
+    public void SetRank(string val, string rankHash)
     {
-        int index = FindIndexToInsert(Level, val);
-        Level.Insert(index, val);
-        SortList(Level);
+        PlayerPrefs.SetString(rankHash, val);
+        PlayerPrefs.Save();
     }
-    
+
     public void InsertExp(int val)
     {
         int index = FindIndexToInsert(Exp, val);

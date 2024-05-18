@@ -26,7 +26,6 @@ public class CharacterControls : MonoBehaviour
     private int detectLayerID;
     public bool isDead;
     private bool isDeadSound = true;
-
     private void Awake()
     {
         if(instance != null)
@@ -97,15 +96,13 @@ public class CharacterControls : MonoBehaviour
             isDeadSound = false;
         }
         yield return new WaitForSeconds(1f);
-        LBManager.instance.InsertLevel(CenterGameData.instance.GetPlayLevel());
-        LBManager.instance.InsertExp(CenterGameData.instance.currentExp);
+        if(!LBManager.instance.isSavedLevel)
+        {
+            LBManager.instance.InsertExp(CenterGameData.instance.currentExp);
+            LBManager.instance.isSavedLevel = true;
+        }
         GameUIController.instance.SetActivePopup();
-
-    }
-
-    public void SetRank(string val, string rankHash)
-    {
-        PlayerPrefs.SetString(rankHash, val);
+        
     }
 
     public void Crawl()

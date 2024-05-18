@@ -15,6 +15,7 @@ public class GameUIController : MonoBehaviour
     [SerializeField] private Image characterImage;
     [SerializeField] private Sprite[] listCharacter;
     [SerializeField] private GameObject popupDied;
+    [SerializeField] private TextMeshProUGUI lastExpTxt;
 
     private void Awake()
     {
@@ -39,6 +40,7 @@ public class GameUIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        lastExpTxt.text = "Exp: " + CenterGameData.instance.currentExp;
         speedTxt.text = "Speed: " + PlayerLevelSwitch.instance.CurrentLevel().runSpeed;
         jumpForceTxt.text = "Jump Force: " + PlayerLevelSwitch.instance.CurrentLevel().jumpSpeed;
         levelTxt.text = "" + (CenterGameData.instance.GetPlayLevel() + 1);
@@ -50,6 +52,7 @@ public class GameUIController : MonoBehaviour
     {
         CenterGameData.instance.ResetLevel();
         CenterGameData.instance.ResetExp();
+        LBManager.instance.isSavedLevel = false;
         SceneManager.LoadScene(0);
     }
 
@@ -62,6 +65,7 @@ public class GameUIController : MonoBehaviour
     {
         CenterGameData.instance.ResetLevel();
         CenterGameData.instance.ResetExp();
+        LBManager.instance.isSavedLevel = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

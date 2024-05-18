@@ -23,7 +23,7 @@ public class DeadOnClick : MonoBehaviour
             {
                 if (hit.collider.gameObject == gameObject)
                 {
-                    CenterGameData.instance.AddExp(5);
+                    CenterGameData.instance.AddExp(1);
                     Destroy(gameObject);
                 }
             }

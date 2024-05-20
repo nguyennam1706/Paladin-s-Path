@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6a74e320c112a774f9f8ffd6b9c685d1
+guid: 94351dd010dce624a84dad939cf5ce82
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,12 +43,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 24
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -124,7 +124,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -134,112 +134,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: Tiles 1_5
-      rect:
-        serializedVersion: 2
-        x: 84
-        y: 104
-        width: 8
-        height: 13
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b518c186a71b72844a6367e75a3e6f91
-      internalID: 837485412
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Tiles 1_6
-      rect:
-        serializedVersion: 2
-        x: 100
-        y: 104
-        width: 8
-        height: 19
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d251d69596a02ca49892280d920a9007
-      internalID: -80113860
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Tiles 1_7
-      rect:
-        serializedVersion: 2
-        x: 116
-        y: 104
-        width: 8
-        height: 20
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ba12a13bbd81c8045a5351b9ef6dfe58
-      internalID: -1512531277
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Tiles 1_8
-      rect:
-        serializedVersion: 2
-        x: 132
-        y: 104
-        width: 8
-        height: 16
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ca9d6fbefcdc14f49926bba42fa677f9
-      internalID: 2028912516
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Tiles 1_9
-      rect:
-        serializedVersion: 2
-        x: 148
-        y: 104
-        width: 8
-        height: 17
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 518f2292380a70943aa968098d45c11d
-      internalID: 1896641261
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
@@ -250,19 +145,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      Tiles 1_0: -1401726577
-      Tiles 1_1: 280170964
-      Tiles 1_10: 1202899315
-      Tiles 1_11: 2014461847
-      Tiles 1_2: -1782825800
-      Tiles 1_3: -115729658
-      Tiles 1_4: -825599984
-      Tiles 1_5: 837485412
-      Tiles 1_6: -80113860
-      Tiles 1_7: -1512531277
-      Tiles 1_8: 2028912516
-      Tiles 1_9: 1896641261
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

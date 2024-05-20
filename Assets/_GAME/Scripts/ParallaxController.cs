@@ -20,11 +20,11 @@ public class ParallaxController : MonoBehaviour
         float dist = (cam.transform.position.x * parallaxEffect);
         transform.position = new Vector3(startPos + dist, cam.transform.position.y, transform.position.z);
 
-        if(temp > startPos + length) 
+        if(temp > startPos + length * 2) 
         {
             startPos += length;
         }
-        else if(temp < startPos - length) 
+        else if(temp < startPos - length * 2) 
         {
             startPos -= length;
         }

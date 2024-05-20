@@ -64,10 +64,12 @@ public class CenterGameData : MonoBehaviour
         if (levelIndex < GetMaxPlayLevel())
         {
             PlayerPrefs.SetInt(playLevelHash, levelIndex);
+            SetUnlockedLevel(levelIndex);
         }
         else
         {
             PlayerPrefs.SetInt(playLevelHash, GetMaxPlayLevel());
+            SetUnlockedLevel(GetMaxPlayLevel());
         }
     }
 

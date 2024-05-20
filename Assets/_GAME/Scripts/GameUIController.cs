@@ -68,4 +68,14 @@ public class GameUIController : MonoBehaviour
         LBManager.instance.isSavedLevel = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
+    public void StopGame()
+    {
+        Time.timeScale = 0;
+    }
+    
+    public void ContinueGame()
+    {
+        Time.timeScale = 1;
+    }
 }

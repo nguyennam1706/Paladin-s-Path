@@ -10,7 +10,7 @@ public class LBManager : MonoBehaviour
     };
     
     public static LBManager instance;
-    public List<int> Exp = new();
+    public List<int> Exp;
     public bool isSavedLevel = false;
     private void Awake()
     {
@@ -23,24 +23,28 @@ public class LBManager : MonoBehaviour
         {
             instance = this;
         }
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        DontDestroyOnLoad(this.gameObject);
-        for(int i = 0; i < RankExp.Length; i++)
+        for (int i = 0; i < RankExp.Length; i++)
         {
-            if(GetRank(RankExp[i]) > 0)
+            if (GetRank(RankExp[i]) > 0)
             {
                 Exp.Add(GetRank(RankExp[i]));
             }
         }
         SortList(Exp);
     }
+    // Start is called before the first frame update
+    void Start()
+    {
+        DontDestroyOnLoad(this.gameObject);
+        
+    }
 
     private void Update()
     {
-        
+        for (int i = 0; i < RankExp.Length; i++)
+        {
+            SetRank(Exp[i], RankExp[i]);
+        }
     }
 
     public int GetRank(string rankHash)
@@ -48,9 +52,9 @@ public class LBManager : MonoBehaviour
         return PlayerPrefs.GetInt(rankHash);
     }
 
-    public void SetRank(string val, string rankHash)
+    public void SetRank(int val, string rankHash)
     {
-        PlayerPrefs.SetString(rankHash, val);
+        PlayerPrefs.SetInt(rankHash, val);
         PlayerPrefs.Save();
     }
 
